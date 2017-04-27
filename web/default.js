@@ -1,0 +1,6 @@
+
+function clickMe() {
+
+	alert("Clicked!");
+
+}
