@@ -30,7 +30,7 @@
 
 <?php
 
-    $dbUrl = getenv('DATABASE_URL');
+    /*$dbUrl = getenv('DATABASE_URL');
 
     $dbopts = parse_url($dbUrl);
 
@@ -43,10 +43,10 @@
     print "<p>pgsql:host=$dbHost;port=$dbPort;dbname=$dbName</p>\n\n";
 
     $db = new PDO("pgsql:host=$dbHost;port=$dbPort;dbname=$dbName", $dbUser, $dbPassword);
+*/
 
 
-
-/*    // default Heroku Postgres configuration URL
+    // default Heroku Postgres configuration URL
     $dbUrl = getenv('DATABASE_URL');
 
     if (empty($dbUrl)) {
@@ -77,7 +77,7 @@
     foreach ($db->query('SELECT now()') as $row)
     {
     print "<p>$row[0]</p>\n\n";
-    }*/
+    }
 
 ?>
 
