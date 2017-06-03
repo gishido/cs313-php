@@ -48,13 +48,13 @@
     die();
     }
 
-    $sql = 'SELECT name FROM topic';
+    $sql = 'SELECT topicid, name FROM topic';
     $statement = $db->query($sql);
 
     echo "<p>";
     while ($row = $statement->fetch(PDO::FETCH_ASSOC))
     {
-        echo "<input type='checkbox' name='topic[]' value='".$row['name']."'>".$row['name'];
+        echo "<input type='checkbox' name='topic[]' value='".$row['topicid']."'>".$row['name'];
     }
     echo "</p>";
 

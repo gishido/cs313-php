@@ -1,5 +1,8 @@
 <?php
     session_start();
+    require("connectdb.php");
+
+    $db = get_db();
 ?>
 
 <!DOCTYPE html>
@@ -59,20 +62,21 @@
     /*echo "<br>".$scriptureid."<br>";*/
 
     $stmt = $db->prepare($topicsql);
-    foreach($_POST['topic'] as $topic)
+    foreach($_POST['topic'] as $topicid)
     {
-                
-        $stmt->bindParam(1,$topicid);
-        $stmt->bindParam(2,$scriptureid);
+        $stmt->bindParam(1,$scriptureid);
+        $stmt->bindParam(2,$topicid);
         $stmt->execute();
     }
 
-    $queryall = 'SELECT book, chapter, verse, content, name as topic
-                    FROM scriptures s
-                    JOIN topic_guide tg
-                        on s.id = tg.scriptid
-                    LEFT JOIN topic t
-                        on tg.topic = t.topicid';
+    $queryall = "SELECT book, chapter, verse, content, string_agg(name, ', ') as topic
+                FROM scriptures s
+                JOIN topic_guide tg
+                    on s.id = tg.scriptid
+                LEFT JOIN topic t
+                    on tg.topic = t.topicid
+                GROUP BY book, chapter, verse, content
+                ORDER BY book, chapter";
     
     $stmt = $db->prepare($queryall);
     $stmt->execute();
@@ -83,7 +87,7 @@
         echo "<strong>".$row['book']." ".$row['chapter'].":".$row['verse']."</strong> - ";
         echo '"' . $row['content'] . '"';
         echo '<br/>';
-        echo $row['name'];
+        echo "<strong>Topic: </strong>".$row['topic'];
         echo '<br/>';
         echo '<br/>';
     }
